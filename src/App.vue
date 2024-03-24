@@ -1,18 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" src="./assets/logo.png" @click="MyClick">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import {ipcRenderer} from 'electron'
 
 export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+  methods: {
+    MyClick() {
+      console.log('图片按钮点击')
+      ipcRenderer.invoke('hello');
+    }
+  },
+  mounted() {
+    ipcRenderer.on('hello-click', () => {
+      console.log("接收到了点击通知栏")
+    })
   }
+
 }
 </script>
 
